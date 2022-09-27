@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: "first",
       routes: {
         "first": (context) => First(),
         "second": (context) => second(),
       },
-      initialRoute: "first",
-      home:const Scaffold(),
+      home: const Scaffold(),
     );
   }
 }

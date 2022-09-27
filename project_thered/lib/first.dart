@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:project_thered/second.dart';
 
 String finalResult = "";
 
@@ -61,6 +60,14 @@ class _FirstState extends State<First> {
     });
   }
 
+  void goToSecondPage() {
+    if (finalResult != "") {
+      timer?.cancel();
+      clearList();
+
+      Navigator.of(context).pushNamed("second");
+    }
+  }
   //______________________________________________
 
   @override
@@ -140,7 +147,6 @@ class _FirstState extends State<First> {
                                 if (winCheck != "non") {
                                   // stop = false;
                                   finalResult = "Player $winCheck is Win";
-                                  Navigator.of(context).pushNamed("second");
                                 }
 
                                 //if draw
@@ -148,19 +154,18 @@ class _FirstState extends State<First> {
                                 for (int i = 0; i < list.length; i++) {
                                   if (list[i] == "") draw = false;
                                 }
-                                print(durationO);
-                                print(durationX);
+
                                 if (draw) {
-                                  if (durationO > durationX) {
+                                  if (durationO < durationX) {
                                     finalResult =
                                         "Player O is Win with time : $durationO";
                                   } else {
                                     finalResult =
                                         "Player X is Win with time : $durationX";
                                   }
-                                  Navigator.of(context).pushNamed("first");
                                 }
                               });
+                              goToSecondPage();
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -226,17 +231,23 @@ class _FirstState extends State<First> {
               //   }),
               //   child: const Text("Reset"),
               // ),
-              ElevatedButton(
-                onPressed: () {
-                  startTimer("X");
-                },
-                child: const Text("Start"),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     startTimer("X");
+              //   },
+              //   child: const Text("Start"),
+              // ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+void clearList() {
+  for (int i = 0; i < list.length; i++) {
+    list[i] = "";
   }
 }
 
