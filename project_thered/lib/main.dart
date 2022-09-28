@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_thered/Splash.dart';
 import 'package:project_thered/first.dart';
 import 'package:project_thered/second.dart';
 
@@ -12,10 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "first",
+      theme: ThemeData(fontFamily: "Roboto"),
+      debugShowCheckedModeBanner: false,
+      initialRoute: "splash",
       routes: {
         "first": (context) => First(),
         "second": (context) => second(),
+        "splash": (context) => Splash(),
       },
       home: const Scaffold(),
     );

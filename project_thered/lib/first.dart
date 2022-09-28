@@ -12,7 +12,7 @@ String currentPlayer = "O";
 String whoWin = "";
 
 // bool stop = true;
-bool draw = false;
+bool even = false;
 
 class First extends StatefulWidget {
   First({Key? key}) : super(key: key);
@@ -71,13 +71,16 @@ class _FirstState extends State<First> {
   }
   //_____________________________________________
 
+  String timeX = "";
+  String timeO = "";
+
   Widget timeBuilderX() {
     String toDigits(int n) => n.toString().padLeft(2, "0");
     final minutesX = toDigits(durationX.inMinutes.remainder(60));
     final secondX = toDigits(durationX.inSeconds.remainder(60));
-
+    timeX = "$minutesX:$secondX";
     return Text(
-      "X Timer : $minutesX:$secondX",
+      "X Timer : $timeX",
       style: const TextStyle(
         fontSize: 20,
       ),
@@ -88,9 +91,9 @@ class _FirstState extends State<First> {
     String toDigits(int n) => n.toString().padLeft(2, "0");
     final minuteO = toDigits(durationO.inMinutes.remainder(60));
     final secondO = toDigits(durationO.inSeconds.remainder(60));
-
+    timeO = "$minuteO:$secondO";
     return Text(
-      "O Timer : $minuteO:$secondO",
+      "O Timer : $timeO",
       style: const TextStyle(
         fontSize: 20,
       ),
@@ -168,19 +171,21 @@ class _FirstState extends State<First> {
                                   finalResult = "Player $winCheck is Win";
                                 }
 
-                                //if draw
-                                draw = true;
+                                //
+                                even = true;
                                 for (int i = 0; i < list.length; i++) {
-                                  if (list[i] == "") draw = false;
+                                  if (list[i] == "") even = false;
                                 }
 
-                                if (draw) {
+                                if (even) {
                                   if (durationO < durationX) {
                                     finalResult =
-                                        "Player O is Win with time : ${timeBuilderO()}  edit2";
-                                  } else {
+                                        "Player O is Win with time : $timeO";
+                                  } else if (durationO > durationX) {
                                     finalResult =
-                                        "Player X is Win with time : $timeBuilderX()";
+                                        "Player X is Win with time : $timeX";
+                                  } else {
+                                    finalResult = "Equal";
                                   }
                                 }
                               });

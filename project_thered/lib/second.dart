@@ -25,7 +25,14 @@ class _secondState extends State<second> {
         backgroundColor: Colors.red,
       ),
       body: Center(
-        child: Text(finalResult),
+        child: Text(
+          finalResult,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            fontFamily: "Toledo",
+          ),
+        ),
       ),
     );
   }
