@@ -177,7 +177,7 @@ class _FirstState extends State<First> {
                                 if (draw) {
                                   if (durationO < durationX) {
                                     finalResult =
-                                        "Player O is Win with time : ${timeBuilderO()}";
+                                        "Player O is Win with time : ${timeBuilderO()}  edit2";
                                   } else {
                                     finalResult =
                                         "Player X is Win with time : $timeBuilderX()";
