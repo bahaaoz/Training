@@ -77,7 +77,6 @@ class _FirstState extends State<First> {
     final secondX = toDigits(durationX.inSeconds.remainder(60));
 
     return Text(
-      
       "X Timer : $minutesX:$secondX",
       style: const TextStyle(
         fontSize: 20,
@@ -178,7 +177,7 @@ class _FirstState extends State<First> {
                                 if (draw) {
                                   if (durationO < durationX) {
                                     finalResult =
-                                        "Player O is Win with time : ${timeBuilderO().da}";
+                                        "Player O is Win with time : ${timeBuilderO()}";
                                   } else {
                                     finalResult =
                                         "Player X is Win with time : $timeBuilderX()";
