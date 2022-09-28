@@ -60,6 +60,7 @@ class _FirstState extends State<First> {
     });
   }
 
+//_____________________________________________
   void goToSecondPage() {
     if (finalResult != "") {
       timer?.cancel();
@@ -68,6 +69,35 @@ class _FirstState extends State<First> {
       Navigator.of(context).pushNamed("second");
     }
   }
+  //_____________________________________________
+
+  Widget timeBuilderX() {
+    String toDigits(int n) => n.toString().padLeft(2, "0");
+    final minutesX = toDigits(durationX.inMinutes.remainder(60));
+    final secondX = toDigits(durationX.inSeconds.remainder(60));
+
+    return Text(
+      
+      "X Timer : $minutesX:$secondX",
+      style: const TextStyle(
+        fontSize: 20,
+      ),
+    );
+  }
+
+  Widget timeBuilderO() {
+    String toDigits(int n) => n.toString().padLeft(2, "0");
+    final minuteO = toDigits(durationO.inMinutes.remainder(60));
+    final secondO = toDigits(durationO.inSeconds.remainder(60));
+
+    return Text(
+      "O Timer : $minuteO:$secondO",
+      style: const TextStyle(
+        fontSize: 20,
+      ),
+    );
+  }
+
   //______________________________________________
 
   @override
@@ -77,7 +107,7 @@ class _FirstState extends State<First> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 142, 16, 7),
-          title: const Text("3"),
+          title: const Text("Tic Tac Toe"),
           centerTitle: true,
         ),
         body: Center(
@@ -89,18 +119,8 @@ class _FirstState extends State<First> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    "X Timer : ${durationX.inSeconds}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text(
-                    "O Timer : ${durationO.inSeconds}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
+                  timeBuilderX(),
+                  timeBuilderO(),
                 ],
               ),
               const SizedBox(
@@ -158,10 +178,10 @@ class _FirstState extends State<First> {
                                 if (draw) {
                                   if (durationO < durationX) {
                                     finalResult =
-                                        "Player O is Win with time : $durationO";
+                                        "Player O is Win with time : ${timeBuilderO().da}";
                                   } else {
                                     finalResult =
-                                        "Player X is Win with time : $durationX";
+                                        "Player X is Win with time : $timeBuilderX()";
                                   }
                                 }
                               });
@@ -209,25 +229,28 @@ class _FirstState extends State<First> {
               ),
               // ElevatedButton(
               //   onPressed: (() {
-              //     setState(() {
-              //       //
+              //     // setState(() {
+              //     String str = "bahaa";
+              //     print(str.toString().padLeft(6, "x") + " o");
 
-              //       // if (test) {
-              //       //   timer?.cancel();
-              //       //   startTimer("O");
-              //       // } else {
-              //       //   timer?.cancel();
-              //       //   startTimer("X");
-              //       // }
-              //       // test = !test;
-              //       //
+              //     //
 
-              //       for (int i = 0; i < list.length; i++) {
-              //         list[i] = "";
-              //       }
-              //       // stop = true;
-              //       whoWin = "";
-              //     });
+              //     // if (test) {
+              //     //   timer?.cancel();
+              //     //   startTimer("O");
+              //     // } else {
+              //     //   timer?.cancel();
+              //     //   startTimer("X");
+              //     // }
+              //     // test = !test;
+              //     //
+
+              //     // for (int i = 0; i < list.length; i++) {
+              //     //   list[i] = "";
+              //     // }
+              //     // // stop = true;
+              //     // whoWin = "";
+              //     // });
               //   }),
               //   child: const Text("Reset"),
               // ),
