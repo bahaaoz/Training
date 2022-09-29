@@ -30,7 +30,7 @@ class _SplashState extends State<Splash> {
     return const Scaffold(
       body: Center(
         child: Text(
-          "Tic Tac Toe",
+          "Tic Tac Toe/",
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
