@@ -74,7 +74,7 @@ flutter:
   fonts:
     - family: Roboto
       fonts:
-        - asset: fonts/Roboto/Roboto-Regular.ttf
+        - asset: Fonts\Roboto_Slab\static\RobotoSlab-ExtraBold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

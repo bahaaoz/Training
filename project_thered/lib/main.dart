@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: "Roboto"),
+      theme: theme,
       debugShowCheckedModeBanner: false,
       initialRoute: "splash",
       routes: {

@@ -12,7 +12,7 @@ String currentPlayer = "O";
 String whoWin = "";
 
 // bool stop = true;
-bool even = false;
+bool draw = false;
 
 class First extends StatefulWidget {
   First({Key? key}) : super(key: key);
@@ -71,16 +71,13 @@ class _FirstState extends State<First> {
   }
   //_____________________________________________
 
-  String timeX = "";
-  String timeO = "";
-
   Widget timeBuilderX() {
     String toDigits(int n) => n.toString().padLeft(2, "0");
     final minutesX = toDigits(durationX.inMinutes.remainder(60));
     final secondX = toDigits(durationX.inSeconds.remainder(60));
-    timeX = "$minutesX:$secondX";
+
     return Text(
-      "X Timer : $timeX",
+      "X Timer : $minutesX:$secondX",
       style: const TextStyle(
         fontSize: 20,
       ),
@@ -91,9 +88,9 @@ class _FirstState extends State<First> {
     String toDigits(int n) => n.toString().padLeft(2, "0");
     final minuteO = toDigits(durationO.inMinutes.remainder(60));
     final secondO = toDigits(durationO.inSeconds.remainder(60));
-    timeO = "$minuteO:$secondO";
+
     return Text(
-      "O Timer : $timeO",
+      "O Timer : $minuteO:$secondO",
       style: const TextStyle(
         fontSize: 20,
       ),
@@ -104,168 +101,163 @@ class _FirstState extends State<First> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 142, 16, 7),
-          title: const Text("Tic Tac Toe"),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 142, 16, 7),
+        title: const Text("Tic Tac Toe"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                timeBuilderX(),
+                timeBuilderO(),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 300,
+              width: 300,
+              child: Stack(
                 children: [
-                  timeBuilderX(),
-                  timeBuilderO(),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 300,
-                width: 300,
-                child: Stack(
-                  children: [
-                    GridView.builder(
-                      itemCount: 9,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          child: InkWell(
-                            splashColor: Colors.blue,
-                            onTap: () {
-                              //  if (!stop) return;
+                  GridView.builder(
+                    itemCount: 9,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child: InkWell(
+                          splashColor: Colors.blue,
+                          onTap: () {
+                            //  if (!stop) return;
 
-                              if (list[index] == "X" || list[index] == "O") {
-                                return;
+                            if (list[index] == "X" || list[index] == "O") {
+                              return;
+                            }
+                            setState(() {
+                              if (currentPlayer == playerX) {
+                                currentPlayer = playerO;
+                                timer?.cancel();
+                                startTimer("X");
+                              } else {
+                                timer?.cancel();
+                                startTimer("O");
+                                currentPlayer = playerX;
                               }
-                              setState(() {
-                                if (currentPlayer == playerX) {
-                                  currentPlayer = playerO;
-                                  timer?.cancel();
-                                  startTimer("X");
+
+                              list[index] = currentPlayer;
+
+                              //if any player win
+                              String winCheck = checkWins();
+                              if (winCheck != "non") {
+                                // stop = false;
+                                finalResult = "Player $winCheck is Win";
+                              }
+
+                              //if draw
+                              draw = true;
+                              for (int i = 0; i < list.length; i++) {
+                                if (list[i] == "") draw = false;
+                              }
+
+                              if (draw) {
+                                if (durationO < durationX) {
+                                  finalResult =
+                                      "Player O is Win with time : ${timeBuilderO()}";
                                 } else {
-                                  timer?.cancel();
-                                  startTimer("O");
-                                  currentPlayer = playerX;
+                                  finalResult =
+                                      "Player X is Win with time : $timeBuilderX()";
                                 }
-
-                                list[index] = currentPlayer;
-
-                                //if any player win
-                                String winCheck = checkWins();
-                                if (winCheck != "non") {
-                                  // stop = false;
-                                  finalResult = "Player $winCheck is Win";
-                                }
-
-                                //
-                                even = true;
-                                for (int i = 0; i < list.length; i++) {
-                                  if (list[i] == "") even = false;
-                                }
-
-                                if (even) {
-                                  if (durationO < durationX) {
-                                    finalResult =
-                                        "Player O is Win with time : $timeO";
-                                  } else if (durationO > durationX) {
-                                    finalResult =
-                                        "Player X is Win with time : $timeX";
-                                  } else {
-                                    finalResult = "Equal";
-                                  }
-                                }
-                              });
-                              goToSecondPage();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: list[index] == ""
-                                    ? Colors.transparent
-                                    : list[index] == "X"
-                                        ? Colors.red
-                                        : Colors.blue,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 2,
-                                ),
+                              }
+                            });
+                            goToSecondPage();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: list[index] == ""
+                                  ? Colors.transparent
+                                  : list[index] == "X"
+                                      ? Colors.red
+                                      : Colors.blue,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 2,
                               ),
-                              height: 10,
-                              width: 10,
-                              child: Center(
-                                child: Text(
-                                  list[index],
-                                  style: const TextStyle(fontSize: 30),
-                                ),
+                            ),
+                            height: 10,
+                            width: 10,
+                            child: Center(
+                              child: Text(
+                                list[index],
+                                style: const TextStyle(fontSize: 30),
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                whoWin,
-                style: TextStyle(fontSize: 20),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              // ElevatedButton(
-              //   onPressed: (() {
-              //     // setState(() {
-              //     String str = "bahaa";
-              //     print(str.toString().padLeft(6, "x") + " o");
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              whoWin,
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            // ElevatedButton(
+            //   onPressed: (() {
+            //     // setState(() {
+            //     String str = "bahaa";
+            //     print(str.toString().padLeft(6, "x") + " o");
 
-              //     //
+            //     //
 
-              //     // if (test) {
-              //     //   timer?.cancel();
-              //     //   startTimer("O");
-              //     // } else {
-              //     //   timer?.cancel();
-              //     //   startTimer("X");
-              //     // }
-              //     // test = !test;
-              //     //
+            //     // if (test) {
+            //     //   timer?.cancel();
+            //     //   startTimer("O");
+            //     // } else {
+            //     //   timer?.cancel();
+            //     //   startTimer("X");
+            //     // }
+            //     // test = !test;
+            //     //
 
-              //     // for (int i = 0; i < list.length; i++) {
-              //     //   list[i] = "";
-              //     // }
-              //     // // stop = true;
-              //     // whoWin = "";
-              //     // });
-              //   }),
-              //   child: const Text("Reset"),
-              // ),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     startTimer("X");
-              //   },
-              //   child: const Text("Start"),
-              // ),
-            ],
-          ),
+            //     // for (int i = 0; i < list.length; i++) {
+            //     //   list[i] = "";
+            //     // }
+            //     // // stop = true;
+            //     // whoWin = "";
+            //     // });
+            //   }),
+            //   child: const Text("Reset"),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     startTimer("X");
+            //   },
+            //   child: const Text("Start"),
+            // ),
+          ],
         ),
       ),
     );
